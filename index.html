@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Data Dashboard</title>
+</head>
+<body>
+    <h1>Live Stock Prices</h1>
+    <div id="data-container">Loading data...</div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch("http://127.0.0.1:8050/api/data"); // Fetch from Dash API
+                const data = await response.json();
+                
+                let content = "<ul>";
+                data.stocks.forEach(stock => {
+                    content += `<li>${stock.name}: $${stock.price}</li>`;
+                });
+                content += "</ul>";
+
+                document.getElementById("data-container").innerHTML = content;
+            } catch (error) {
+                document.getElementById("data-container").innerHTML = "Error fetching data!";
+            }
+        }
+
+        fetchData(); // Call API when page loads
+    </script>
+</body>
+</html>
